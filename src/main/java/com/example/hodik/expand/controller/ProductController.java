@@ -1,6 +1,6 @@
 package com.example.hodik.expand.controller;
 
-import com.example.hodik.expand.controller.dto.ProductDto;
+
 import com.example.hodik.expand.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

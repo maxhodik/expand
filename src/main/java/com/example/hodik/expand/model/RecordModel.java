@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@Entity//(name = "form_entry")
 @Entity
 
 public class RecordModel {
