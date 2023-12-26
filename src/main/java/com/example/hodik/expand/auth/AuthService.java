@@ -10,6 +10,6 @@ public interface AuthService {
 
     User getUserFromAuth(Authentication authentication);
 
-    String getUserEmail();
+    String getUsername();
 
 }

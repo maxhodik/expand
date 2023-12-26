@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String getUserEmail() {
+    public String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return getSecurityUser(authentication).getUsername();
     }
@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
         String username = securityUser.getUsername();
         if (!authentication.isAuthenticated()) {
             logger.info("[AUTH] User {} is not authenticated", username);
-            throw new AuthenticationServiceException("User is not is not authenticated");
+            throw new AuthenticationServiceException("User is not authenticated");
         }
 
         User user = securityUser.getUser();

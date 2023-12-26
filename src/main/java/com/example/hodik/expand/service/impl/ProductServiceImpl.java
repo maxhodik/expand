@@ -1,4 +1,4 @@
-package com.example.hodik.expand.service;
+package com.example.hodik.expand.service.impl;
 
 import com.example.hodik.expand.controller.dto.ProductDto;
 import com.example.hodik.expand.controller.dto.RecordDto;
@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class ProductServiceImpl {
 
 
     public final EntityManager entityManager;
 
-    public ProductService(EntityManager entityManager) {
+    public ProductServiceImpl(EntityManager entityManager) {
 
         this.entityManager = entityManager;
     }
