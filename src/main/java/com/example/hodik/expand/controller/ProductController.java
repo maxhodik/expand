@@ -1,13 +1,10 @@
 package com.example.hodik.expand.controller;
 
-
+import com.example.hodik.expand.controller.dto.ProductDto;
 import com.example.hodik.expand.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/products")
@@ -25,4 +22,8 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(productDto));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> findAllProducts() {
+        return ResponseEntity.ok(productService.findAll());
+    }
 }

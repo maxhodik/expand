@@ -2,6 +2,9 @@ package com.example.hodik.expand.service.impl;
 
 import com.example.hodik.expand.controller.dto.ProductDto;
 import com.example.hodik.expand.controller.dto.RecordDto;
+import com.example.hodik.expand.model.Products;
+import com.example.hodik.expand.repository.ProductRepository;
+import com.example.hodik.expand.service.ProductService;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,17 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ProductServiceImpl {
+public class ProductServiceImpl implements ProductService {
 
 
     public final EntityManager entityManager;
+    public final ProductRepository productRepository;
 
-    public ProductServiceImpl(EntityManager entityManager) {
+    public ProductServiceImpl(EntityManager entityManager, ProductRepository productRepository) {
 
         this.entityManager = entityManager;
+        this.productRepository = productRepository;
     }
 
-
+    @Override
     @Transactional
     public Object createProduct(ProductDto productDto) {
         String tableName = productDto.getTable();
@@ -37,5 +42,10 @@ public class ProductServiceImpl {
                     .setParameter(5, rowDto.getStatus()).executeUpdate();
         }
         return records;
+    }
+
+    @Override
+    public List<Products> findAll() {
+        return productRepository.findAll();
     }
 }

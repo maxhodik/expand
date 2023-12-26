@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 
-public class RecordModel {
+public class Products {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
