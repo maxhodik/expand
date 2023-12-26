@@ -16,4 +16,8 @@ public class JwtAuthenticationException extends AuthenticationException {
         super(msg);
         this.httpStatus = httpStatus;
     }
+
+    public JwtAuthenticationException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

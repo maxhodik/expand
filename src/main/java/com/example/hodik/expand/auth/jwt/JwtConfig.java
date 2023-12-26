@@ -2,10 +2,10 @@ package com.example.hodik.expand.auth.jwt;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 @Data
-@Component
+@Configuration
 public class JwtConfig {
 
     @Value("${jwt.secret}")

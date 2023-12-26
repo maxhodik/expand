@@ -1,9 +1,11 @@
 package com.example.hodik.expand.auth.controller;
 
-import org.example.projectapp.auth.controller.dto.AuthenticationRequestDTO;
-import org.example.projectapp.auth.jwt.JwtTokenProvider;
-import org.example.projectapp.model.User;
-import org.example.projectapp.repository.UserRepository;
+import com.example.hodik.expand.auth.controller.dto.AuthenticationRequestDTO;
+import com.example.hodik.expand.auth.jwt.JwtTokenProvider;
+import com.example.hodik.expand.model.User;
+import com.example.hodik.expand.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,13 +15,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/user")
 public class AuthenticationRestControllerV1 {
 
     private final AuthenticationManager authenticationManager;
@@ -32,16 +32,17 @@ public class AuthenticationRestControllerV1 {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-            User user = userRepository.findByEmail(request.getEmail())
+            String userName = request.getUsername();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, request.getPassword()));
+            User user = userRepository.findUserByUsername(userName)
                     .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
-            String accessToken = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name(), false);
-            String refreshToken = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name(), true);
+            String accessToken = jwtTokenProvider.createToken(userName, false);
+            String refreshToken = jwtTokenProvider.createToken(userName, true);
             Map<Object, Object> response = new HashMap<>();
-            response.put("email", request.getEmail());
+            response.put("username", userName);
             response.put("access_token", accessToken);
             response.put("refresh_token", refreshToken);
             return ResponseEntity.ok(response);
@@ -59,12 +60,12 @@ public class AuthenticationRestControllerV1 {
     @GetMapping("/refreshToken")
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         String refreshToken = jwtTokenProvider.resolveToken(request);
-        String userEmail = jwtTokenProvider.getUserEmail(refreshToken);
-        User user = userRepository.findByEmail(userEmail)
+        String userName = jwtTokenProvider.getUsername(refreshToken);
+        User user = userRepository.findUserByUsername(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
-        String accessToken = jwtTokenProvider.createToken(user.getEmail(), user.getRole().name(), false);
+        String accessToken = jwtTokenProvider.createToken(user.getUsername(), false);
         Map<Object, Object> response = new HashMap<>();
-        response.put("email", user.getEmail());
+        response.put("username", user.getUsername());
         response.put("access_token", accessToken);
         response.put("refresh_token", refreshToken);
         return ResponseEntity.ok().body(response);

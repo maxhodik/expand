@@ -1,11 +1,11 @@
 package com.example.hodik.expand.auth.impl;
 
-import org.example.projectapp.auth.AuthService;
-import org.example.projectapp.auth.exception.UserNotFoundException;
-import org.example.projectapp.auth.jwt.JwtTokenProvider;
-import org.example.projectapp.model.User;
-import org.example.projectapp.repository.UserRepository;
-import org.example.projectapp.security.SecurityUser;
+import com.example.hodik.expand.auth.AuthService;
+import com.example.hodik.expand.auth.exception.UserNotFoundException;
+import com.example.hodik.expand.auth.jwt.JwtTokenProvider;
+import com.example.hodik.expand.model.User;
+import com.example.hodik.expand.repository.UserRepository;
+import com.example.hodik.expand.security.SecurityUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,17 +55,17 @@ public class AuthServiceImpl implements AuthService {
         }
 
         SecurityUser securityUser = getSecurityUser(authentication);
-        String email = securityUser.getUsername();
+        String username = securityUser.getUsername();
         if (!authentication.isAuthenticated()) {
-            logger.info("[AUTH] User {} is not authenticated", email);
+            logger.info("[AUTH] User {} is not authenticated", username);
             throw new AuthenticationServiceException("User is not is not authenticated");
         }
 
         User user = securityUser.getUser();
         if (user == null || user.getId() == null) {
             logger.info("[AUTH] Incorrect security user {}", securityUser);
-            return userRepository.findByEmail(email)
-                    .orElseThrow(() -> new UserNotFoundException("User not found", email));
+            return userRepository.findUserByUsername(username)
+                    .orElseThrow(() -> new UserNotFoundException("User not found", username));
         }
 
         return userRepository.getOne(user.getId());
@@ -82,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtTokenProvider.getUserEmail(token));
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtTokenProvider.getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 }
