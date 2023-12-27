@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "itemCode": 11111,
+    "entryDate": "2023-01-03",
+    "itemName": "Test Inventory 1",
+    "itemQuantity": 20,
+    "status": "Paid"
+  },
+  {
+    "id": 2,
+    "itemCode": 11111,
+    "entryDate": "2023-01-03",
+    "itemName": "Test Inventory 2",
+    "itemQuantity": 20,
+    "status": "Paid"
+  }
+]

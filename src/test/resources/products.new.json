@@ -1,0 +1,19 @@
+{
+  "table": "productsNew",
+  "records": [
+    {
+      "entryDate": "03-01-2023",
+      "itemCode": "11111",
+      "itemName": "Test Inventory 1",
+      "itemQuantity": "20",
+      "status": "Paid"
+    },
+    {
+      "entryDate": "03-01-2023",
+      "itemCode": "11111",
+      "itemName": "Test Inventory 2",
+      "itemQuantity": "20",
+      "status": "Paid"
+    }
+  ]
+}

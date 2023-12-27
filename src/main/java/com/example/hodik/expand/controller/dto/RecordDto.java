@@ -40,5 +40,14 @@ public class RecordDto {
     @NotEmpty(message = "Should not be empty")
     private String status; //"Paid"
 
-
+    @Override
+    public String toString() {
+        return new org.apache.commons.lang3.builder.ToStringBuilder(this)
+                .append("entryDate", entryDate)
+                .append("itemCode", itemCode)
+                .append("itemName", itemName)
+                .append("itemQuantity", itemQuantity)
+                .append("status", status)
+                .toString();
+    }
 }

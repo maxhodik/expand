@@ -40,12 +40,4 @@ public class User {
         return Objects.hash(id, username, password);
     }
 
-//    @Override
-//    public String toString() {
-//        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-//                .append("id", id)
-//                .append("email", username)
-//                .append("password", password)
-//                .toString();
-//    }
 }
